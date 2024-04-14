@@ -12,7 +12,8 @@ pipeline {
         stage('test') {
             steps {
                 echo "running static test on code"
-                echo "testing in progress"          
+                echo "testing in progress"
+                echo "testing webhook"
                 
             }
         }
