@@ -1,40 +1,35 @@
 pipeline {
     agent any
-    
+    parameters {
+        choice(name: 'deploy_to', choices: ['dev', 'qa', 'prod'])
+    }
     stages {
-        stage('Checkout') {
+        stage('checkout') {
             steps {
-                // Checkout code from the Git repository
-                git branch: 'master', credentialsId: 'your-git-credentials', url: 'https://github.com/yourusername/yourrepository.git'
+                git branch: 'main', url: 'https://github.com/AuthorizeNet/sample-code-java.git'
             }
         }
-        
-        stage('Make Changes') {
+        stage('test') {
             steps {
-                // Make some changes to the code
-                sh 'echo "Your changes" > example.txt'
+                echo "running static test on code"
+                echo "testing in progress"          
+                
             }
         }
-        
-        stage('Stage Changes') {
+        stage('build') {
+            when {
+                branch "main"
+            }
             steps {
-                // Stage changes for commit
-                sh 'git add .'
+                sh 'echo "building the code "'
+                
             }
         }
-        
-        stage('Commit') {
-            steps {
-                // Commit the changes
-                sh 'git commit -m "Commit message"'
+        stage('deploy') {
+                        steps {
+                echo "deploying into environment"
+              
             }
         }
-        
-        stage('Push Changes') {
-            steps {
-                // Push changes back to the repository
-                sh 'git push origin master'
-            }
-        }
-    }
+    }
 }
